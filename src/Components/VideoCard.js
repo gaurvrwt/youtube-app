@@ -1,13 +1,12 @@
 import React from "react";
 
 const VideoCard = ({ snippet, statistics }) => {
-  console.log(snippet, "sin");
   return (
     <div className="w-72 shadow-lg">
       <img
         className="w-96"
         src={snippet?.thumbnails?.high?.url}
-        alt="thubnail"
+        alt="thumbnail"
       />
       <h3 className="overflow-hidden">{snippet?.title}</h3>
       <h3 className="bold">{snippet?.channelTitle}</h3>

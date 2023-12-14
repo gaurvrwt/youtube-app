@@ -45,9 +45,8 @@ const VideoContainer = () => {
       </div>
       <div className="mt-10 flex flex-wrap gap-6">
         {youtubeVideoList.map((video) => (
-          <Link to={"/watch?v=" + video.id}>
-            {" "}
-            <VideoCard key={video.id} {...video} />{" "}
+          <Link key={video.id} to={"/watch?v=" + video.id}>
+            <VideoCard {...video} />
           </Link>
         ))}
       </div>
