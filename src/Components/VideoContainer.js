@@ -35,7 +35,6 @@ const VideoContainer = () => {
     "Jazz",
     "Gadgets",
     "News",
-    "Podcast",
   ];
   return (
     <div className="px-4">
