@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../Utils/appSlice";
-import { YOUTUBE_SEARCH_API } from "../Utils/Config";
+import { YOUTUBE_SEARCH_API, YOUTUBE_VIDEO_SEARCH_API } from "../Utils/Config";
 import { cacheResults } from "../Utils/searchSlice";
+import { updateVideos } from "../Utils/VideosSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const Header = () => {
   const [searchList, setSearchList] = useState([]);
   const [searchVisible, setSearchVisible] = useState(false);
   const searchCache = useSelector((store) => store.search);
+  const [willGetData, setWillGetData] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,6 +24,7 @@ const Header = () => {
     return () => {
       clearTimeout(timer);
     };
+    // eslint-disable-next-line
   }, [searchQuery]);
 
   const getSearchSuggestions = async () => {
@@ -33,13 +36,31 @@ const Header = () => {
         [searchQuery]: jsondata[1],
       })
     );
-    console.log(jsondata, searchQuery, "searched");
   };
 
   const toggleSidebar = () => {
     console.log("inside func");
     dispatch(toggleMenu());
   };
+
+  const getSearchVideosData = async () => {
+    const response = await fetch(YOUTUBE_VIDEO_SEARCH_API + searchQuery);
+    const parsedData = await response.json();
+    dispatch(updateVideos(parsedData?.items));
+    console.log(parsedData?.items, "parsed");
+  };
+
+  const setClickedSearch = (str) => {
+    console.log(str, "sett");
+    setSearchQuery(str);
+    setWillGetData(true);
+  };
+
+  useEffect(() => {
+    willGetData && getSearchVideosData();
+    setWillGetData(false);
+    // eslint-disable-next-line
+  }, [willGetData]);
 
   return (
     <div className="grid grid-flow-col p-2 h-16 shadow-lg mt-2">
@@ -50,31 +71,41 @@ const Header = () => {
           alt="Hamburger"
           onClick={toggleSidebar}
         />
-        <img
-          className="w-32 h-10 pl-4 cursor-pointer "
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/1024px-YouTube_Logo_2017.svg.png"
-          alt="Youtube Icon"
-        />
+        <a href="/">
+          <img
+            className="w-32 h-10 pl-4 cursor-pointer "
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/1024px-YouTube_Logo_2017.svg.png"
+            alt="Youtube Icon"
+          />
+        </a>
       </div>
       <div className="col-span-8 flex justify-center align-middle">
         <div>
           <input
             className="w-80 border-2 rounded-lg h-[40px]"
             type="text"
+            value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => setSearchVisible(true)}
             onBlur={() => {
               setSearchVisible(false);
             }}
           />
-          <span className="py-2 px-2 border-2 rounded-lg w-12 cursor-pointer">
+          <span
+            onClick={getSearchVideosData}
+            className="py-2 px-2 border-2 rounded-lg w-12 cursor-pointer"
+          >
             🔎
           </span>
-          {searchVisible && (
+          {searchQuery && searchList.length > 0 && (
             <div className="shadow-md bg-white absolute w-[24%] p-2 rounded-md">
               <ul>
                 {searchList?.map((val) => (
-                  <li key={val} className="shadow-sm p-4 hover:bg-gray-50">
+                  <li
+                    onClick={() => setClickedSearch(val)}
+                    key={val}
+                    className="shadow-sm p-4 cursor-pointer hover:bg-slate-300 rounded-md"
+                  >
                     {val}
                   </li>
                 ))}
