@@ -2,9 +2,9 @@ import React from "react";
 
 const VideoCard = ({ snippet, statistics }) => {
   return (
-    <div className="w-72 shadow-lg">
+    <div className="w-72 shadow-lg rounded-lg">
       <img
-        className="w-96"
+        className="w-96 p-2 rounded-[7%]"
         src={snippet?.thumbnails?.high?.url}
         alt="thumbnail"
       />
