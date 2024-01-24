@@ -82,7 +82,7 @@ const Header = () => {
       <div className="col-span-8 flex justify-center align-middle">
         <div>
           <input
-            className="w-80 border-2 rounded-lg h-[40px]"
+            className="w-80 p-2 border-2 rounded-lg h-[40px]"
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -97,12 +97,12 @@ const Header = () => {
           >
             🔎
           </span>
-          {searchQuery && searchList.length > 0 && (
+          {searchQuery && searchList.length > 0 && searchVisible &&(
             <div className="shadow-md bg-white absolute w-[24%] p-2 rounded-md">
               <ul>
                 {searchList?.map((val) => (
                   <li
-                    onClick={() => setClickedSearch(val)}
+                    onMouseDown={() => setClickedSearch(val)}
                     key={val}
                     className="shadow-sm p-4 cursor-pointer hover:bg-slate-300 rounded-md"
                   >
