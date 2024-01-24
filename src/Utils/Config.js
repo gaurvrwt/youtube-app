@@ -1,13 +1,15 @@
 const GOOGLE_API_KEY = "AIzaSyBCxHaQ8YXX7y_G-1nFUcEI7kHk3bHCQk4";
 export const YOUTUBE_API =
-  "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=5&regionCode=IN&key=" +
+  "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&regionCode=IN&maxResults=50&key=" +
   GOOGLE_API_KEY;
 export const YOUTUBE_SEARCH_API =
   "http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
 export const YOUTUBE_VIDEO_SEARCH_API =
-  "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&key=" +
+  "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=50&key=" + 
   GOOGLE_API_KEY +
   "&q=";
+
+  export const YOUTUBE_VIDEO_COMMENTS = 'https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&key=' + GOOGLE_API_KEY + '&videoId=';
 
 const nameList = [
   "Time",

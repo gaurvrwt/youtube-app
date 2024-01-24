@@ -60,7 +60,7 @@ const WatchPage = () => {
           ></iframe>
         </div>
         <div className="w-[35%] border-2 rounded-md m-3 p-2 bg-gray-100">
-          <div className="h-80 overflow-y-scroll">
+          <div className="h-80 overflow-y-scroll flex flex-col-reverse">
             {liveChatData.map((val, index) => (
               <LiveComments key={index} {...val} />
             ))}
@@ -82,7 +82,7 @@ const WatchPage = () => {
         </div>
       </div>
       <div>
-        <CommentsContainer />
+        <CommentsContainer videoId={searchParam.get("v")} />
       </div>
     </div>
   );

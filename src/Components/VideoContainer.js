@@ -33,7 +33,6 @@ const VideoContainer = () => {
     "Live",
     "ComputerSience",
     "Jazz",
-    "Gadgets",
     "News",
   ];
   return (
