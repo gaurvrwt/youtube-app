@@ -5,7 +5,6 @@ import { addMessage } from "../Utils/chatSlice";
 import { useSearchParams } from "react-router-dom";
 import CommentsContainer from "./CommentsContainer";
 import LiveComments from "./LiveComments";
-import { generateName } from "../Utils/Config";
 // import YOTUBE_CHAT from "../Utils/YOUTUBE_CHAT.json";
 
 const WatchPage = () => {
@@ -19,26 +18,10 @@ const WatchPage = () => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    const SE = setInterval(() => {
-      dispatch(
-        addMessage({
-          name: "Gaurav Rawat",
-          commentText: "Jai Shree Ram 🚩",
-        })
-      );
-    }, 2000);
-
-    return () => {
-      clearInterval(SE);
-    };
-    // eslint-disable-next-line
-  }, []);
-
   const sendChat = () => {
     dispatch(
       addMessage({
-        name: generateName(),
+        name: 'User Name',
         commentText: newComment,
       })
     );

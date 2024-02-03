@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../Utils/appSlice";
-import { YOUTUBE_SEARCH_API, YOUTUBE_VIDEO_SEARCH_API } from "../Utils/Config";
+import { YOUTUBE_SUGGESTIONS_API, YOUTUBE_VIDEO_SEARCH_API } from "../Utils/Config";
 import { cacheResults } from "../Utils/searchSlice";
 import { updateVideos } from "../Utils/VideosSlice";
+import axios from "axios";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -28,15 +29,25 @@ const Header = () => {
   }, [searchQuery]);
 
   const getSearchSuggestions = async () => {
-    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
-    const jsondata = await data.json();
-    setSearchList(jsondata[1]);
+    const response = await axios.get(YOUTUBE_SUGGESTIONS_API + searchQuery);
+    const data =  getRefinedSearchData(response.data);
+    setSearchList(data);
     dispatch(
       cacheResults({
-        [searchQuery]: jsondata[1],
+        [searchQuery]: data,
       })
     );
   };
+
+  const getRefinedSearchData = (responseString)=>{
+  const startIndex = responseString.indexOf('([') + 1;
+const endIndex = responseString.lastIndexOf('])') + 1;
+const jsonString = responseString.substring(startIndex, endIndex);
+const jsonData = JSON.parse(jsonString);
+
+const suggestions = jsonData[1].map(suggestion => suggestion[0]);
+return suggestions;
+  }
 
   const toggleSidebar = () => {
     console.log("inside func");

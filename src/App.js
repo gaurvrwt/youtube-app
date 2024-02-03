@@ -9,7 +9,7 @@ import WatchPage from './Components/WatchPage';
 
 
 const routes = createBrowserRouter([
-  {path:"/",element:<Body />,children:[{path:"/",element: <VideoContainer />},{path:"/watch",element:<WatchPage />}]},
+  {path:"/",element:<Body />,children:[{path:"youtube-app",element: <VideoContainer />},{path:"/watch",element:<WatchPage />}]},
 
 
 ])
